@@ -1,0 +1,59 @@
+[workspace]
+resolver = "2"
+members = ["packages/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+description = "Demonstrating converting event enums to string + data"
+documentation = "https://github.com/JustusFluegel/anathema-typed-event-demo"
+repository = "https://github.com/JustusFluegel/anathema-typed-event-demo.git"
+license = "MIT OR Apache-2.0"
+
+[workspace.dependencies]
+library-package = { path = "packages/library-package" }
+macro-package = { path = "packages/macro-package" }
+
+[workspace.lints.clippy]
+allow_attributes = "deny"
+allow_attributes_without_reason = "warn"
+arithmetic_side_effects = "warn"
+as_conversions = "deny"
+cargo = { level = "warn", priority = -1 }
+clone_on_ref_ptr = "warn"
+complexity = { level = "warn", priority = -1 }
+correctness = { level = "deny", priority = -1 }
+# Individual lints
+dbg_macro = "warn"
+empty_enum_variants_with_brackets = "warn"
+empty_structs_with_brackets = "warn"
+error_impl_error = "warn"
+expect_used = "warn"
+format_push_string = "warn"
+if_then_some_else_none = "warn"
+infinite_loop = "warn"
+module_name_repetitions = "allow"
+nursery = { level = "warn", priority = -1 }
+panic = "warn"
+pedantic = { level = "warn", priority = -1 }
+perf = { level = "warn", priority = -1 }
+rc_buffer = "warn"
+rc_mutex = "warn"
+redundant_type_annotations = "warn"
+rest_pat_in_fully_bound_structs = "warn"
+self_named_module_files = "deny"
+style = { level = "warn", priority = -1 }
+suspicious_xor_used_as_pow = "warn"
+tests_outside_test_module = "deny"
+todo = "warn"
+try_err = "warn"
+unnecessary_safety_comment = "warn"
+unnecessary_safety_doc = "warn"
+unnecessary_self_imports = "warn"
+unneeded_field_pattern = "warn"
+unwrap_used = "warn"
+use_debug = "warn"
+
+[workspace.lints.rust]
+# has current false-positives https://github.com/rust-lang/rust/issues/147648
+unused_assignments = "allow"

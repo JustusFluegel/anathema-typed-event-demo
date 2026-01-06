@@ -1,0 +1,15 @@
+[package]
+name = "test-package"
+version.workspace = true
+edition.workspace = true
+description.workspace = true
+documentation.workspace = true
+repository.workspace = true
+license.workspace = true
+
+[dependencies]
+anathema = "0.2.11"
+library-package.workspace = true
+
+[lints]
+workspace = true
