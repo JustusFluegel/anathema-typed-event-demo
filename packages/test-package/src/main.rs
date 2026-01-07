@@ -23,4 +23,6 @@ fn main() {
 
     let untyped_event: anathema::component::UserEvent = todo!();
     let my_event: Option<&MyEvents> = untyped_event.as_typed_event();
+
+    let pos = anathema::geometry::Pos { x: 1, y: 2 };
 }

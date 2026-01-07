@@ -112,24 +112,6 @@ pub fn my_macro(input: syn::DeriveInput) -> manyhow::Result<proc_macro2::TokenSt
         as_typed_event_impl_generics.generics.split_for_impl();
     let (impl_generics, type_generics, where_clause) = generics.split_for_impl();
 
-    let publish_branches = enum_data.iter().map(|v| {
-        let variant_ident = &v.ident;
-
-        quote! {
-            data@#ident::#variant_ident { .. } => {
-                self.publish(::library_package::traits::Event::event_ident(&data), data);
-            }
-        }
-    });
-
-    let check_branches = enum_data.iter().map(|v| {
-        let variant_ident = &v.ident;
-
-        quote! {
-            data@#ident::#variant_ident { .. } if name == ::library_package::traits::Event::event_ident(data) => data
-        }
-    });
-
     let ident_fn = enum_data.iter().map(|v| {
         let variant_ident = &v.ident;
 
@@ -149,9 +131,7 @@ pub fn my_macro(input: syn::DeriveInput) -> manyhow::Result<proc_macro2::TokenSt
         #[automatically_derived]
         impl #impl_generics_publishable ::library_package::traits::Publishable<#ident #type_generics> for ::anathema::component::Context<'__macro_generic_frame,'__macro_generic_bp, __macro_generic_T> #where_clause_publishable {
             fn publish_typed(&mut self, event: #ident #type_generics) {
-                match event {
-                    #(#publish_branches),*
-                }
+                self.publish(::library_package::traits::Event::event_ident(&event), event)
             }
         }
 
@@ -162,10 +142,7 @@ pub fn my_macro(input: syn::DeriveInput) -> manyhow::Result<proc_macro2::TokenSt
                 let name = self.name();
                 let data: &#ident #type_generics = self.data_checked()?;
 
-                Some(match data {
-                    #(#check_branches),*,
-                    _ => return None
-                })
+                bool::then_some(::library_package::traits::Event::event_ident(data) == name, data)
             }
         }
 
